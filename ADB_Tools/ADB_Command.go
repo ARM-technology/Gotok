@@ -74,6 +74,38 @@ func Tap(ratioX, ratioY float64) {
 	)
 }
 
+func Swipe(ratioX1, ratioY1, ratioX2, ratioY2 float64) {
+
+	w, h := GetScreenSize()
+
+	x1 := int(float64(w) * ratioX1)
+	y1 := int(float64(h) * ratioY1)
+
+	x2 := int(float64(w) * ratioX2)
+	y2 := int(float64(h) * ratioY2)
+
+	fmt.Println(
+		"Swiping from:",
+		x1, y1,
+		"to",
+		x2, y2,
+	)
+
+	ADB(
+		"shell",
+		"input",
+		"swipe",
+
+		fmt.Sprint(x1),
+		fmt.Sprint(y1),
+
+		fmt.Sprint(x2),
+		fmt.Sprint(y2),
+
+		"250",
+	)
+}
+
 func PasteText(text string) {
 
 	fmt.Println("⌨️ Writing text safely:", text)
@@ -90,4 +122,18 @@ func PasteText(text string) {
 		}
 	}
 
+}
+
+func CloseTikTok() {
+
+	fmt.Println("❌ Closing TikTok...")
+
+	ADB(
+		"shell",
+		"am",
+		"force-stop",
+		"com.zhiliaoapp.musically",
+	)
+
+	fmt.Println("✅ TikTok Closed")
 }
